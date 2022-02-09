@@ -4,27 +4,37 @@
     <div class="banner-wrp">
       <div class="title">医生圈</div>
       <img class="banner" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-      <div class="avatar-wrp">
-        <img class="avatar" src="https://img01.yzcdn.cn/vant/cat.jpeg">
-      </div>
+      <router-link to="/user">
+        <div class="avatar-wrp">
+          <img class="avatar" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+        </div>
+      </router-link>
     </div>
 
     <!-- 动态 -->
     <div class="dynamic">
+      <dynamic-item />
+      <div class="line"></div>
       <dynamic-item />
     </div>
   </dev>
 </template>
 
 <script>
-import dynamicItem from '@/components/dynamic-item'
+import dynamicItem from "@/components/dynamic-item";
 
 export default {
-  name: 'friends',
+  name: "friends",
   components: {
-    'dynamic-item': dynamicItem
-  }
-}
+    "dynamic-item": dynamicItem,
+  },
+  methods: {
+    // 跳转个人主页
+    goUserHome() {
+      this.$router.push("/user");
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -75,6 +85,13 @@ export default {
 
   .dynamic {
     margin-top: 60px;
+
+    .line {
+      width: 100%;
+      height: 20px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+    }
   }
 }
 </style>

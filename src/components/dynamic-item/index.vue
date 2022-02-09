@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="dynamic-content">
-      <div class="top">
+    <div :class="['dynamic-content', type === 'self' ? 'flex' : '']">
+      <div class="top" v-if="type === 'all'">
         <div class="left">
-          <div class="avatar-wrp">
+          <div :class="['avatar-wrp', 'self-avatar']">
             <img class="avatar" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
           </div>
         </div>
@@ -12,41 +12,48 @@
           <div class="update-time">7分钟前</div>
         </div>
       </div>
-      <!-- 发布内容 -->
-      <div class="content">
-        <div class="word">发布了一个病例</div>
-        <img
-          class="video-img"
-          src="https://img01.yzcdn.cn/vant/cat.jpeg"
-          alt=""
-        />
+      <div class="time" v-if="type === 'self'">
+        <span>07</span><span class="day">1月</span>
       </div>
-
-      <!-- 点赞、评论区 -->
-      <div class="action-wrp">
-        <img class="eye" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-        <div class="look-num">浏览了200次</div>
-        <img class="like" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-        <img class="comments" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-      </div>
-
-      <div class="like-people-wrp">
-        <img class="like-people" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-        <div class="people">小明和其他用户赞了</div>
-      </div>
-      <div class="comments-list-wrp">
-        <div class="comment">小明：你好，老师</div>
-        <div class="reply">
-          林清野<span class="blue">回复</span
-          >小明：你好小明：你好小明：你好小明：你好小明：你好小明：你好小明：你好
+      <div class="bottom">
+        <!-- 发布内容 -->
+        <div class="content">
+          <div class="word">发布了一个病例</div>
+          <img
+            class="video-img"
+            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            alt=""
+          />
         </div>
-      </div>
-      <div class="add-comment-wrp">
-        <van-search
-          class="add-comment"
-          placeholder="请输入搜索关键词"
-        />
-        <!-- <input class="add-comment" type="text" placeholder="添加评论"> -->
+
+        <!-- 点赞、评论区 -->
+        <div class="action-wrp">
+          <img class="eye" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+          <div class="look-num">浏览了200次</div>
+          <img class="like" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+          <img class="comments" src="https://img01.yzcdn.cn/vant/cat.jpeg" @click="addComment"/>
+        </div>
+
+        <div class="like-people-wrp">
+          <img class="like-people" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+          <div class="people">小明和其他用户赞了</div>
+        </div>
+        <div class="comments-list-wrp">
+          <div class="comment">小明：你好，老师</div>
+          <div class="reply">
+            林清野<span class="blue">回复</span
+            >小明：你好小明：你好小明：你好小明：你好小明：你好小明：你好小明：你好
+          </div>
+        </div>
+        <div class="add-comment-wrp">
+          <input
+            ref="addCommentIpt"
+            class="add-comment"
+            type="text"
+            placeholder="添加评论..."
+            v-model="commentValue"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -54,29 +61,68 @@
 
 <script>
 export default {
-  name: 'dynamicItem',
+  name: "dynamicItem",
   props: {
-    type: all, // all:所有的动态样式   self:个人动态 样式
+    type: {
+      type: String,
+      default: "all",
+    }, // all:所有的动态样式   self:个人动态 样式
     dynamicList: {
-      type: Array
+      type: Array,
+    },
+  },
+  data() {
+    return {
+      commentValue:''
+    }
+  },
+  methods:{
+    // 添加评论
+    addComment() {
+      this.$refs.addCommentIpt.focus()
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
+.flex {
+  display: flex;
+  margin-right: 120px !important;
+  margin-top: 60px !important;
+  // justify-content: center;
+  .time {
+    flex: 1;
+    width: 100%;
+    font-size: 36px;
+    font-weight: 800;
+    color: #000000;
+    line-height: 36px;
+    margin-right: 17px;
+    word-break: keep-all;
+
+    .day {
+      font-size: 24px;
+      font-weight: normal;
+    }
+  }
+  .content {
+    margin-top: 8px;
+  }
+}
 .dynamic-content {
   box-sizing: border-box;
   margin: 0 30px;
   .top {
     display: flex;
+    margin-bottom: 26px;
 
     .avatar-wrp {
       position: relative;
       width: 88px;
       height: 88px;
       margin-right: 13px;
-      border: 1px #29abe2 solid;
+      // border: 1px #29abe2 solid;
       border-radius: 10px;
 
       .avatar {
@@ -88,6 +134,9 @@ export default {
         height: 80px;
         border-radius: 10px;
       }
+    }
+    .self-avatar {
+      border: 1px #29abe2 solid;
     }
 
     .right {
@@ -116,8 +165,6 @@ export default {
   }
 
   .content {
-    margin-top: 26px;
-
     .word {
       font-size: 30px;
       font-family: PingFangSC-Medium, PingFang SC;
@@ -189,7 +236,7 @@ export default {
     }
 
     .people {
-      font-size: 22px;
+      font-size: 28px;
       font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 500;
       color: #010101;
@@ -216,9 +263,18 @@ export default {
     .add-comment {
       width: 100%;
       height: 88px;
+      font-size: 30px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #999999;
+      line-height: 30px;
       border-radius: 20px 20px 20px 20px;
+      margin: 20px 0;
+      padding: 0 20px;
       outline: none;
+      border: 0;
       background: #f9f9f9;
+      box-sizing: border-box;
     }
   }
 }

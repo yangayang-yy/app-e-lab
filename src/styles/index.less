@@ -1,19 +1,29 @@
 // 全局样式文件
 html,
 body {
-    margin: 0;
-    padding: 0;
-    min-width: 320px;
-    background-color: #f5f7f9;
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  background-color: #fff;
 }
 
+
 .show-line_1 {
-    /*超出部分隐藏*/
-    overflow: hidden;
-    /* 超出部分显示省略号 */
-    text-overflow: ellipsis;
-    /*规定段落中的文本不进行换行 */
-    white-space: nowrap;
-    /*英文单词折行*/
-    word-break: break-all;
+  /*超出部分隐藏*/
+  overflow: hidden;
+  /* 超出部分显示省略号 */
+  text-overflow: ellipsis;
+  /*规定段落中的文本不进行换行 */
+  white-space: nowrap;
+  /*英文单词折行*/
+  word-break: break-all;
+}
+
+.show-line_3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  /*英文单词折行*/
+  word-break: break-all;
 }
